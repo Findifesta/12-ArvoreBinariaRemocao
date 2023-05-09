@@ -252,11 +252,11 @@ void removerElementoArvore(NO* no, int valor) {
 	{
 		if (pai->dir == atual)
 		{
-			pai->dir = NULL;
+			pai->dir == NULL;
 		}
 		else
 		{
-			pai->esq = NULL;
+			pai->esq == NULL;
 		}
 		cout << "Elemento excluido\n";
 		free(atual);
