@@ -248,77 +248,77 @@ void removerElementoArvore(NO* no, int valor) {
 
 
 	// caso 1: sem filhos	
-	if (atual->esq && atual->dir == NULL)
-	{
-		if (pai->dir == atual)
-		{
-			pai->dir = NULL;
+	if (atual->esq == NULL && atual->dir == NULL) {
+		if (pai == NULL) {
+			raiz = NULL;
 		}
-		else
-		{
+		else if (pai->esq == atual) {
 			pai->esq = NULL;
 		}
-		cout << "Elemento excluido\n";
+		else if (pai->dir == atual) {
+			pai->dir = NULL;
+		}
 		free(atual);
+		cout << "Elemento excluido\n";
 		return;
 	}
 
+	// caso 2: um filho    
 
-	// caso 2: um filho	
-	if (atual->esq == NULL && atual->dir != NULL)
-	{
-		if (pai->dir == atual)
-		{
-			pai->dir = atual->dir;
+	else if (atual->esq == NULL || atual->dir == NULL) {
+		if (atual->esq != NULL) {
+			if (pai == NULL) {
+				raiz = atual->esq;
+			}
+			else if (pai->esq == atual) {
+				pai->esq = atual->esq;
+			}
+			else if (pai->dir == atual) {
+				pai->dir = atual->esq;
+			}
 		}
-		else
-		{
-			pai->esq = atual->dir;
+		else if (atual->dir != NULL) {
+			if (pai == NULL) {
+				raiz = atual->dir;
+			}
+			else if (pai->esq == atual) {
+				pai->esq = atual->dir;
+			}
+			else if (pai->dir == atual) {
+				pai->dir = atual->dir;
+			}
 		}
-		cout << "Elemento excluido\n";
 		free(atual);
+		cout << "Elemento excluido\n";
 		return;
-	}
-	//else
-	{
-
 	}
 
 	// caso 3: dois filhos
-	//else
-	{
+	else if (atual->esq != NULL && atual->dir != NULL) {
+		// procura o elmento mais a esquerda da sub-arvore da direita
+		NO* sucessor = atual->dir;
+		NO* paiSucessor = atual;
+		while (sucessor->esq != NULL) {
+			paiSucessor = sucessor;
+			sucessor = sucessor->esq;
+		}
 
+		// copia o valor do sucessor para o no atual
+		atual->valor = sucessor->valor;
+
+		// se existir uma sub-arvore a direita do sucessor , entao
+		// ela deve ser ligada ao pai do sucessor
+		if (sucessor->dir != NULL)
+		{
+			paiSucessor->esq = sucessor->dir;
+		}
+		else {
+			paiSucessor->dir = sucessor->dir;
+		}
+
+		//libera memoria
+		free(sucessor);
+		cout << "Elemento excluido\n";
+		return;
 	}
-
-
-	// procura o elmento mais a esquerda da sub-arvore da direita
-	NO* sucessor = atual->dir;
-	NO* paiSucessor = atual;
-	while (sucessor->esq != NULL) {
-		paiSucessor = sucessor;
-		sucessor = sucessor->esq;
-	}
-
-	// copia o valor do sucessor para o no atual
-	atual->valor = sucessor->valor;
-
-	// se existir uma sub-arvore a direita do sucessor , entao
-	// ela deve ser ligada ao pai do sucessor
-	if (sucessor->dir != NULL)
-	{
-		paiSucessor->esq = sucessor->dir;
-	}
-	else {
-		paiSucessor->esq = NULL;
-	}
-
-	//libera memoria
-	free(sucessor);
-
-
 }
-
-
-
-
-
